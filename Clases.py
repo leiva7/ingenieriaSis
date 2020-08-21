@@ -21,26 +21,93 @@ print(bolsita.espacio_disponible())
 bolsita.ver_elementos()
 
 
-class Persona:
-    def __init__(self, nombre, apellido, edad):
+class Persona():
+    def __init__(self, nombre, apellido, dni, edad):
         self.nombre = nombre
         self.apellido = apellido
+        self.dni = dni
         self.edad = edad
+        
+    def habla(self, decir):
+        print(decir)
+        
+fran = Persona("Franco", "Leiva", 33333333, 29)
+fran.habla("Tenemos que ir a comprar alimento para perros")
+    
+class Docente(Persona):
+    def __init__(self, nombre, apellido, dni, edad, nLegajo, cAlumnos, antiguedad):
+        Persona.__init__(self, nombre, apellido, dni, edad)
+        self.materia = ""
+        self.nLegajo = nLegajo
+        self.cAlumnos = cAlumnos
+        self.antiguedad = antiguedad
+        
+    def set_materia(self,materia):
+        if materia == "Geografía" or "Matemática" or "Programación":
+            self.materia = materia
+        else:
+            print("Indique una materia habilitada (Matemática, Geografía o Programación)")
+            
+    def corregir(self, listaTuplas):
+        cantPreguntas = 0
+        correctas = 0
+        for t in listaTuplas:
+            cantPreguntas += 1
+            if t[0] == t[1]:
+                correctas += 1
+        porcentajeCorrectas = (correctas * 100)/cantPreguntas
+        print("Porcentaje de rtas correctas: ", porcentajeCorrectas )
+        
+    def darClases(self, unidad):
+        print("Estoy dando la clase de ", unidad, " a mis ", self.cAlumnos, " alumnos.")
+            
+profeDiego = Docente("Diego", "Romano", 26333222, 35, 26333222, 15, 3)
+profeDiego.set_materia("Lengua")
+profeDiego.set_materia("Programación")
+profeDiego.corregir([("Verdadero","Verdadero"),("Falso","Verdadero"),("Algoritmo","Método"),(7,7)])
+profeDiego.darClases("Unidad 3, Ordenamiento")
 
-    def cumpleanios(self):
-        self.edad += 1
+class DocenteTeorico(Docente):
+    def __init__(self, nombre, apellido, dni, edad, nLegajo, cAlumnos, antiguedad):
+        Docente.__init__(self, nombre, apellido, dni, edad, nLegajo, cAlumnos, antiguedad)
+        
+    def darTeorico(self, unidad):
+        print("Estoy dando la clase de ", unidad, " a mis ", self.cAlumnos, " alumnos")
+        
+    def proponerExamen(self):
+        if self.materia == "Geografía":
+            print("Cuál es el rio más ancho del mundo? 1) De la plata, 2) Nylo, 3) Amazonas")
+        elif self.materia == "Matemática":
+             print("Cuántos lados tiene un polígono? 1) 5, 2) más de 2, 3) 5 o más")
+        elif self.materia == "Programación":
+            print("Qué es Scrum? 1) Una forma de escribir código, 2) una metodología ágil, 3) una herramienta de debugging")
 
-    def comotellamas(self):
-        print("Me llamo ", self.nombre, " ", self.apellido)
-
-
-franco = Persona("Franco", "Leiva", 28)
-paula = Persona("Paula", "Montesino", 32)
-yesica = Persona("Yesica", "Suarez", 22)
-paola = Persona("Paola", "Tabare", 22)
-paola.cumpleanios()
-paola.comotellamas()
-
+profeTeo = DocenteTeorico("Lauta", "Arenas", 36888999, 30, 36888999, 20, 2)
+profeTeo.set_materia("Matemática")
+profeTeo.darTeorico("Un ecuaciones")
+profeTeo.proponerExamen()
+        
+class DocentePractico(Docente):
+    def __init__(self, nombre, apellido, dni, edad, nLegajo, cAlumnos, antiguedad):
+        Docente.__init__(self, nombre, apellido, dni, edad, nLegajo, cAlumnos, antiguedad)
+    
+    def set_materia(self,materia):
+        if materia == "Matemática" or "Programación":
+            self.materia = materia
+        else:
+            print("Indique una materia habilitada (Matemática, Geografía o Programación)")
+            
+    def darPractico(self, unidad):
+        self.darClases(unidad)
+        print("Además propongo práctico: ")
+        if self.materia == "Matemática":
+             print("Cuánta plata gastaste si hiciste 10km en un auto que consume 1.5 litros por cada kilómetro y la nafta cuesta 50 pesos por litro? 1) 800, 2) 750, 3) 500")
+        elif self.materia == "Programación":
+            print("En Python, qué valor resulta de hacer ‘a == b == a is b’ si tanto a como b tienen en valor [1, 2, 3]? 1) True, 2) False, 3) Da error")
+            
+marce = DocentePractico("Marcelo", "Corona", 55444222, 45, 55444222, 5, 4)
+marce.set_materia("Matemática")
+marce.darPractico("Unidad 7")
 
 class Auto:
     def __init__(self, marca, modelo, consumo):
@@ -165,57 +232,59 @@ class Libro:
 # hp.leer(600)
 
 
-class Repartidor:
+class Empleado:
+    def __init__(self, nombre, edad, salario):
+        self.nombre = nombre
+        self.edad = edad
+        self.salario = salario
+        
+    def plus(self, plus):
+        if ((self.__class__.__name__ == "Repartidor") and (self.edad < 25) and (self.zona == 3)) or ((self.__class__.__name__ == "Comercial") and (self.edad > 30) and (self.comision > 200)):
+            print("Recibió plus!")
+            self.salario += plus*self.salario/100
+
+
+class Repartidor(Empleado):
 
     def __init__(self, nombre, edad, salario, zona):
-        self.nombre = nombre
-        self.edad = edad
-        self.salario = salario
+        Empleado.__init__(self,nombre,edad,salario)
         self.zona = zona
+    
 
-    def plus(self, plus):
-        if (self.edad < 25) and (self.zona == 3):
-            print("Recibió plus!")
-            self.salario += plus*self.salario/100
-
-
-# rappi = Repartidor("Juan", 30, 15000, 3)
-# rappi.plus(1)
-# print(rappi.nombre, rappi.salario)
-# go = Repartidor("Marcos", 20, 10000, 3)
-# go.plus(1)
-# print(go.nombre, go.salario)
+rappi = Repartidor("Juan", 30, 15000, 3)
+rappi.plus(1)
+print(rappi.nombre, rappi.salario)
+go = Repartidor("Marcos", 20, 10000, 3)
+go.plus(1)
+print(go.nombre, go.salario)
 
 
-class Comercial:
+class Comercial(Empleado):
 
     def __init__(self, nombre, edad, salario, comision):
-        self.nombre = nombre
-        self.edad = edad
-        self.salario = salario
+        Empleado.__init__(self,nombre,edad,salario)
         self.comision = comision
 
-    def plus(self, plus):
-        if (self.edad > 30) and (self.comision > 200):
-            print("Recibió plus!")
-            self.salario += plus*self.salario/100
+
+agente = Comercial("Tatiana", 33, 25000, 300)
+agente.plus(1)
+print(agente.salario)
+agente = Comercial("Romina", 23, 25000, 100)
+agente.plus(1)
+print(agente.salario)
 
 
-# agente = Comercial("Tatiana", 33, 25000, 300)
-# agente.plus(1)
-# print(agente.salario)
-# agente = Comercial("Romina", 23, 25000, 100)
-# agente.plus(1)
-# print(agente.salario)
+class Poligono():
+    def __init__(self, listaVertices):
+        self.vertices = listaVertices
 
-
-class Rectangulo:
-
-    def __init__(self, vertice1, vertice2, vertice3, vertice4):
-        self.v1 = vertice1
-        self.v2 = vertice2
-        self.v3 = vertice3
-        self.v4 = vertice4
+class Rectangulo(Poligono):
+    def __init__(self, listaVertices):
+        Poligono.__init__(self,listaVertices)
+        self.v1 = self.vertices[0]
+        self.v2 = self.vertices[1]
+        self.v3 = self.vertices[2]
+        self.v4 = self.vertices[3]
 
     def altura(self):
         vertices = [self.v2, self.v3, self.v4]
@@ -233,14 +302,14 @@ class Rectangulo:
         return self.base()*self.altura()
 
 
-# rec1 = Rectangulo((2,7),(2,1),(1,7),(1,1))
-# print(rec1.altura())
-# print(rec1.base())
-# print(rec1.superficie())
-# rec2 = Rectangulo((3,1),(3,4),(6,1),(6,4))
-# print(rec2.altura())
-# print(rec2.base())
-# print(rec2.superficie())
+rec1 = Rectangulo([(2,7),(2,1),(1,7),(1,1)])
+print(rec1.altura())
+print(rec1.base())
+print(rec1.superficie())
+rec2 = Rectangulo([(3,1),(3,4),(6,1),(6,4)])
+print(rec2.altura())
+print(rec2.base())
+print(rec2.superficie())
 
 
 class Cafetera:
