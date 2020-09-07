@@ -1,8 +1,8 @@
-#Herencia Múltiple y super()
+# Herencia Múltiple y super()
 La herencia múltiple implica que cada clase hija puede heredar de más de una clase madre.
 En ese contexto, super() permite acceder a los métodos de la clase superior que este infgresada primero en la herencia.
 
-##Ejemplo de uso y explicación 
+## Ejemplo de uso y explicación 
 Si tomamos el [archivo](herenciaMultiple.py) y ejecutamos las siguientes instrucciones:
 ```
 ba = B()
