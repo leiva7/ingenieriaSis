@@ -50,7 +50,7 @@ class DocenteTeorico(Docente):
     def __init__(self, nombre, apellido, dni, edad, nLegajo, cAlumnos, antiguedad):
         Docente.__init__(self, nombre, apellido, dni, edad, nLegajo, cAlumnos, antiguedad)
         
-    def darTeorico(self, unidad):
+    def dar_clase(self, unidad):
         print("Estoy dando la clase de ", unidad, " a mis ", self.cAlumnos, " alumnos")
         
     def proponerExamen(self):
@@ -72,8 +72,8 @@ class DocentePractico(Docente):
         else:
             print("Indique una materia habilitada (Matemática, Geografía o Programación)")
             
-    def darPractico(self, unidad):
-        self.darClases(unidad)
+    def dar_clase(self, unidad):
+        super().dar_clase(unidad)
         print("Además propongo práctico: ")
         if self.materia == "Matemática":
              print("Cuánta plata gastaste si hiciste 10km en un auto que consume 1.5 litros por cada kilómetro y la nafta cuesta 50 pesos por litro? 1) 800, 2) 750, 3) 500")
@@ -90,8 +90,8 @@ class DocenteTitular(DocentePractico, DocenteTeorico):
     def peleandoAprobacion(self):
         print("Remando la aprobación de la materia")
         
-    def darClasesTP(self, unidad):
-        super(DocenteTitular, self).darPractico(unidad)
+    def dar_clase(self, unidad):
+        super(DocenteTitular, self).dar_clase(unidad)
         
 
         
