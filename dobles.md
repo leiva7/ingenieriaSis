@@ -11,7 +11,7 @@ En el segundo caso, para la función sumatoria_manual() también devuelve error 
 Se realiza el testeo con el archivo [pto2AreaTriangulo](pto2AreaTriangulo.py) a la función area_triangulo de [sut](sut.py)
 Se presenta el siguiente error:
 > line 36, in dividir
->    return ceil(a / b)
+> return ceil(a / b)
 > NameError: name 'ceil' is not defined
 Se revisa la función dividir, se incluye en sut.py el prefijo math. en la llamada a ceil.
 Se repite la ejecución de los test que devuelve OK. Sin embargo nuevamente cuando no se mockean las llamadas a las funciones, la que pasa por parámetros area_triangulo(3, 5) no devuelve lo esperado. Se identifica que ceil en dividir() realiza un redondeo que no debe estar; se hace la corrección. 
